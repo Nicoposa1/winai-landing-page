@@ -32,7 +32,7 @@ export default function Home() {
           className="mx-auto rounded-3xl shadow-lg"
         />
 
-        <h1 className="text-5xl font-bold mb-6">Winai</h1>
+        <h1 className="text-5xl font-bold mb-6 mt-6">Winai</h1>
         <p className="text-xl mb-8">Your AI-Powered Wine Companion</p>
 
         <div className="mb-12">
