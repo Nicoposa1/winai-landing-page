@@ -17,3 +17,18 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@keyframes fadeOutScale {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8); /* Hace que el formulario se reduzca de tamaño */
+  }
+}
+
+.fade-out-scale {
+  animation: fadeOutScale 0.6s forwards; /* Aplica la animación durante 0.6 segundos */
+}
