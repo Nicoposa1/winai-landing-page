@@ -21,13 +21,23 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-gradient-to-b from-burgundy to-burgundy-dark text-white">
       <div className="max-w-3xl w-full text-center">
-        
+
+        <Image
+          src="/logo.png"
+          alt="Winai App Mockup"
+          width={100}
+          height={100}
+          // rounded image
+          style={{ borderRadius: '50%' }}
+          className="mx-auto rounded-3xl shadow-lg"
+        />
+
         <h1 className="text-5xl font-bold mb-6">Winai</h1>
         <p className="text-xl mb-8">Your AI-Powered Wine Companion</p>
-        
+
         <div className="mb-12">
           <Image
-            src="/winai-mockup.png"
+            src="/mockup.png"
             alt="Winai App Mockup"
             width={300}
             height={600}
@@ -36,17 +46,17 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <FeatureCard 
+          <FeatureCard
             icon="🍷"
             title="Smart Recommendations"
             description="Get AI-curated wine suggestions tailored to your palate"
           />
-          <FeatureCard 
+          <FeatureCard
             icon="📸"
             title="Instant Wine Info"
             description="Scan any wine label for immediate details and ratings"
           />
-          <FeatureCard 
+          <FeatureCard
             icon="🧠"
             title="Wine Knowledge Hub"
             description="Expand your wine expertise with AI-driven insights and lessons"
