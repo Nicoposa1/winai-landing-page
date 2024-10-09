@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image';
 import EmailForm from './EmailForm';
+import React from 'react';
 
 interface FeatureCardProps {
   icon: string;
@@ -18,22 +21,38 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
 }
 
 export default function Home() {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50); // Cambia según cuándo quieras activar el estilo sticky
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-gradient-to-b from-burgundy to-burgundy-dark text-white relative">
       <link rel="icon" href="/logo.png" sizes="any" />
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-burgundy opacity-75"></div>
-      </div>
-      <div className="max-w-4xl w-full text-center relative z-10">
-        <div className="mb-12">
+      <header className={`fixed top-0 left-0 w-full bg-burgundy z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg' : 'py-4'}`}>
+        <div className="max-w-7xl mx-auto flex justify-center">
           <Image
             src="/logo.png"
             alt="Winai Logo"
-            width={150}
-            height={150}
+            width={60}
+            height={60}
             className="mx-auto"
           />
         </div>
+      </header>
+
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-burgundy opacity-75"></div>
+      </div>
+      <div className="max-w-4xl w-full text-center relative z-10 pt-24">
         <h1 className="text-6xl font-bold mb-6">Winai</h1>
         <p className="text-2xl mb-12">Your AI-Powered Wine Companion</p>
         
