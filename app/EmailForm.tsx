@@ -6,15 +6,37 @@ export default function EmailForm() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Para manejar errores
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAnimating(true); // Activa la animación
 
-    // Simula el tiempo de la animación y oculta el formulario después
-    setTimeout(() => {
-      setIsSubmitted(true); // Cambia el estado a "enviado" solo después de que la animación haya terminado
-    }, 600); // La duración de la animación en milisegundos
+    try {
+      // Realiza una solicitud POST al backend
+      const response = await fetch('https://back-winai.vercel.app/save/email', { 
+        mode: 'no-cors',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }), // Enviar el email al backend
+      });
+
+      if (!response.ok) {
+        throw new Error('Error sending email. Please try again.');
+      }
+
+      // Simula el tiempo de la animación y oculta el formulario después
+      setTimeout(() => {
+        setIsSubmitted(true); // Cambia el estado a "enviado" solo después de que la animación haya terminado
+        setError(null); // Reiniciar el error si la solicitud fue exitosa
+      }, 600); // La duración de la animación en milisegundos
+    } catch (err) {
+      // Si ocurre un error, lo mostramos
+      setError(err.message);
+      setIsAnimating(false);
+    }
   };
 
   return (
@@ -44,6 +66,11 @@ export default function EmailForm() {
       ) : (
         <div className="text-center text-white pb-4">
           Thank you for joining the waitlist!
+        </div>
+      )}
+      {error && (
+        <div className="text-red-500 mt-4">
+          {error} {/* Muestra el mensaje de error */}
         </div>
       )}
     </div>
