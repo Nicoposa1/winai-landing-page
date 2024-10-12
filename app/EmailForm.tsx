@@ -11,33 +11,40 @@ export default function EmailForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAnimating(true); // Activa la animación
-
+  
+    const data = { email: email };
+  
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setError("Invalid email format.");
+      setIsAnimating(false);
+      return;
+    }
+  
     try {
-      // Realiza una solicitud POST al backend
-      const response = await fetch('https://back-winai.vercel.app/save/email', { 
-        mode: 'no-cors',
+      const response = await fetch('https://back-winai.vercel.app/save/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }), // Enviar el email al backend
+        body: JSON.stringify(data), // Enviar el email al backend
       });
-
+  
       if (!response.ok) {
-        throw new Error('Error sending email. Please try again.');
+        const errorText = await response.text();
+        throw new Error(`Error sending email: ${errorText}`);
       }
-
+  
       // Simula el tiempo de la animación y oculta el formulario después
       setTimeout(() => {
         setIsSubmitted(true); // Cambia el estado a "enviado" solo después de que la animación haya terminado
         setError(null); // Reiniciar el error si la solicitud fue exitosa
       }, 600); // La duración de la animación en milisegundos
     } catch (err) {
-      // Si ocurre un error, lo mostramos
       setError(err.message);
       setIsAnimating(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-4">
