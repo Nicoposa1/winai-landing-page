@@ -40,7 +40,11 @@ export default function EmailForm() {
         setError(null); // Reiniciar el error si la solicitud fue exitosa
       }, 600); // La duración de la animación en milisegundos
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred.');
+      }
       setIsAnimating(false);
     }
   };
