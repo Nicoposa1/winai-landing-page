@@ -59,7 +59,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row justify-center items-center mb-16">
           <div className="w-full md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0">
             <Image
-              src="/mockup.png"
+              src="/mockup2.png"
               alt="Winai App Mockup"
               width={300}
               height={600}
