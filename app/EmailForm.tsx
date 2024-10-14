@@ -2,7 +2,14 @@
 
 import React, { useState } from 'react';
 
-export default function EmailForm() {
+
+interface EmailFormProps {
+  title: string;
+  placeholder: string;
+  thankYou: string;
+}
+
+export default function EmailForm({ title, placeholder, thankYou }: EmailFormProps) {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -11,15 +18,15 @@ export default function EmailForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsAnimating(true); // Activa la animación
-  
+
     const data = { email: email };
-  
+
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setError("Invalid email format.");
       setIsAnimating(false);
       return;
     }
-  
+
     try {
       const response = await fetch('https://back-winai.vercel.app/save/email', {
         method: 'POST',
@@ -28,12 +35,12 @@ export default function EmailForm() {
         },
         body: JSON.stringify(data), // Enviar el email al backend
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Error sending email: ${errorText}`);
       }
-  
+
       // Simula el tiempo de la animación y oculta el formulario después
       setTimeout(() => {
         setIsSubmitted(true); // Cambia el estado a "enviado" solo después de que la animación haya terminado
@@ -48,20 +55,19 @@ export default function EmailForm() {
       setIsAnimating(false);
     }
   };
-  
+
 
   return (
     <div className="flex flex-col items-center sm:flex-row sm:justify-center gap-4">
       {!isSubmitted ? (
         <form
           onSubmit={handleSubmit}
-          className={`flex flex-col items-center sm:flex-row sm:justify-center gap-4 transition-all duration-600 ${
-            isAnimating ? 'fade-out-scale' : ''
-          }`}
+          className={`flex flex-col items-center sm:flex-row sm:justify-center gap-4 transition-all duration-600 ${isAnimating ? 'fade-out-scale' : ''
+            }`}
         >
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder={placeholder}
             className="px-4 py-2 rounded-full text-burgundy w-full sm:w-64"
             required
             value={email}
@@ -71,12 +77,12 @@ export default function EmailForm() {
             type="submit"
             className="bg-white text-burgundy font-bold py-2 px-6 rounded-full hover:bg-gray-200 transition duration-300 w-full sm:w-auto"
           >
-            Join Waitlist
+            {title}
           </button>
         </form>
       ) : (
         <div className="text-center text-white pb-4">
-          Thank you for joining the waitlist!
+          {thankYou}
         </div>
       )}
       {error && (
