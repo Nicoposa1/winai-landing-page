@@ -101,17 +101,18 @@ export default function Home() {
 
         <div className="mb-16">
           <h2 className="text-3xl font-bold mb-6">{earlyAccess}</h2>
-          <EmailForm  
+          <EmailForm
             title={join}
             placeholder={placeholder}
             thankYou={thankYou}
-            />
+          />
         </div>
 
         <p className="text-xl font-semibold">
           {comingSoon}
         </p>
       </div>
+      <Analytics />
     </main>
   );
 }
